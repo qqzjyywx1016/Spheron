@@ -89,11 +89,11 @@ function deploy_node() {
     # 创建spheron目录（如果不存在）
     mkdir -p ~/spheron
 
-    # 使用wget下载文件到spheron目录
-    echo "正在下载文件到spheron目录..."
-    wget -O ~/spheron/fizzup-v1.0.1.sh https://raw.githubusercontent.com/sdohuajia/Spheron/main/fizzup-v1.0.1.sh
+    # 将root中的fizzup-v1.0.1.sh文件拷贝到spheron目录
+    echo "正在从/root/拷贝文件到spheron目录..."
+    cp /root/fizzup-v1.0.1.sh ~/spheron/
 
-    echo "下载完成：~/spheron/fizzup-v1.0.1.sh"
+    echo "拷贝完成：~/spheron/fizzup-v1.0.1.sh"
 
     # 添加可执行权限
     chmod +x ~/spheron/fizzup-v1.0.1.sh
