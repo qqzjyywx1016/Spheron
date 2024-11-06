@@ -89,19 +89,19 @@ function deploy_node() {
     # 创建spheron目录（如果不存在）
     mkdir -p ~/spheron
 
-    # 将root中的fizzup-v1.0.1.sh文件拷贝到spheron目录
+    # 将root中的fizzup-v1.1.0.sh文件拷贝到spheron目录
     echo "正在从/root/拷贝文件到spheron目录..."
-    cp /root/fizzup-v1.0.1.sh ~/spheron/
+    cp /root/fizzup-v1.1.0.sh ~/spheron/
 
-    echo "拷贝完成：~/spheron/fizzup-v1.0.1.sh"
+    echo "拷贝完成：~/spheron/fizzup-v1.1.0.sh"
 
     # 添加可执行权限
-    chmod +x ~/spheron/fizzup-v1.0.1.sh
+    chmod +x ~/spheron/fizzup-v1.1.0.sh   
 
     # 进入spheron目录并运行脚本
     cd ~/spheron
-    echo "正在运行脚本：fizzup-v1.0.1.sh"
-    ./fizzup-v1.0.1.sh
+    echo "正在运行脚本：fizzup-v1.1.0.sh"
+    ./fizzup-v1.1.0.sh
 
     read -p "按任意键返回主菜单..."
 }
