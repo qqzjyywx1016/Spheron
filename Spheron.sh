@@ -101,7 +101,7 @@ function deploy_node() {
     # 进入spheron目录并运行脚本
     cd ~/spheron
     echo "正在运行脚本：fizzup-v1.1.2.sh"
-    ./fizzup-v1.1.1.sh
+    ./fizzup-v1.1.2.sh
 
     read -p "按任意键返回主菜单..."
 }
