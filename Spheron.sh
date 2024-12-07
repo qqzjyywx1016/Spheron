@@ -21,9 +21,10 @@ function main_menu() {
         echo "请选择要执行的操作:"
         echo "1. 部署节点"
         echo "2. 查看日志"
-        echo "3. 退出"
+        echo "3. 停止节点"
+        echo "4. 退出"
 
-        read -p "请输入选项 [1-3]: " choice
+        read -p "请输入选项 [1-4]: " choice
 
         case $choice in
             1)
@@ -33,6 +34,9 @@ function main_menu() {
                 view_logs
                 ;;
             3)
+                stop_node
+                ;;
+            4)
                 echo "感谢使用，再见！"
                 exit 0
                 ;;
@@ -110,6 +114,18 @@ function deploy_node() {
 function view_logs() {
     echo "正在查看日志..."
     docker compose -f ~/.spheron/fizz/docker-compose.yml logs -f
+    read -p "按任意键返回主菜单..."
+}
+
+# 添加停止节点函数
+function stop_node() {
+    echo "正在停止节点..."
+    if [ -f ~/.spheron/fizz/docker-compose.yml ]; then
+        docker compose -f ~/.spheron/fizz/docker-compose.yml down
+        echo "节点已成功停止"
+    else
+        echo "未找到节点配置文件，请确认节点是否已部署"
+    fi
     read -p "按任意键返回主菜单..."
 }
 
