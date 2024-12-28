@@ -128,6 +128,7 @@ function stop_node() {
     echo "正在停止节点..."
     if [ -f ~/.spheron/fizz/docker-compose.yml ]; then
         docker compose -f ~/.spheron/fizz/docker-compose.yml down
+        sphnctl fizz stop
         echo "节点已成功停止"
     else
         echo "未找到节点配置文件，请确认节点是否已部署"
