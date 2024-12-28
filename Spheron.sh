@@ -22,9 +22,10 @@ function main_menu() {
         echo "1. 部署节点"
         echo "2. 查看日志"
         echo "3. 停止节点"
-        echo "4. 退出"
+        echo "4. 停止节点"
+        echo "5. 退出"
 
-        read -p "请输入选项 [1-4]: " choice
+        read -p "请输入选项 [1-5]: " choice
 
         case $choice in
             1)
@@ -37,6 +38,9 @@ function main_menu() {
                 stop_node
                 ;;
             4)
+                version
+                ;;
+            5)
                 echo "感谢使用，再见！"
                 exit 0
                 ;;
@@ -122,6 +126,13 @@ function deploy_node() {
 function view_logs() {
     echo "正在查看日志..."
     sphnctl fizz logs
+    read -p "按任意键返回主菜单..."
+}
+
+# 查看版本
+function version() {
+    echo "正在查看目前版本..."
+    sphnctl fizz version
     read -p "按任意键返回主菜单..."
 }
 
