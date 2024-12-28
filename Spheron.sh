@@ -93,19 +93,25 @@ function deploy_node() {
     # 创建spheron目录（如果不存在）
     mkdir -p ~/spheron
 
-    # 将root中的fizzup.sh文件拷贝到spheron目录
-    echo "正在从/root/拷贝文件到spheron目录..."
-    cp /root/fizzup.sh ~/spheron/
+    # 下载并执行sphnctl.sh脚本到spheron目录
+    echo "正在下载并执行sphnctl.sh脚本到 ~/spheron 目录..."
+    curl -sL1 https://sphnctl.sh -o ~/spheron/sphnctl.sh
 
-    echo "拷贝完成：~/spheron/fizzup.sh"
+    echo "下载完成：~/spheron/sphnctl.sh"
 
-    # 添加可执行权限
-    chmod +x ~/spheron/fizzup.sh   
+    # 赋予sphnctl.sh执行权限
+    chmod +x ~/spheron/sphnctl.sh
 
     # 进入spheron目录并运行脚本
     cd ~/spheron
     echo "正在运行脚本：fizzup.sh"
-    ./fizzup.sh
+
+    # 提示用户输入Token
+    read -p "请输入您的Token（例如：0x3a5d08256479bf4d57af8...）: " user_token
+    
+    # 使用提供的Token启动fizz
+    echo "正在使用提供的Token启动fizz，请稍等..."
+    ./sphnctl.sh fizz start --token "$user_token"
 
     read -p "按任意键返回主菜单..."
 }
