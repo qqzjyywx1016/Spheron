@@ -111,7 +111,9 @@ function deploy_node() {
     
     # 使用提供的Token启动fizz
     echo "正在使用提供的Token启动fizz，请稍等..."
-    ./sphnctl.sh fizz start --token "$user_token"
+
+    # 执行命令
+    sphnctl fizz start --token "$user_token"
 
     read -p "按任意键返回主菜单..."
 }
@@ -119,7 +121,7 @@ function deploy_node() {
 # 查看日志函数
 function view_logs() {
     echo "正在查看日志..."
-    docker compose -f ~/.spheron/fizz/docker-compose.yml logs -f
+    sphnctl fizz logs
     read -p "按任意键返回主菜单..."
 }
 
