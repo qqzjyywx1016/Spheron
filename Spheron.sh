@@ -105,9 +105,10 @@ function deploy_node() {
 
     # 赋予sphnctl.sh执行权限
     chmod +x /root/spheron/sphnctl.sh
-    echo 'export PATH="$HOME/spheron:$PATH"' >> ~/.bashrc
-    source ~/.bashrc
     sudo chmod +x /usr/local/bin/sphnctl
+    
+    # 删除原有的文件
+    sudo rm -rf /usr/local/bin/sphnctl
 
     # 进入spheron目录并运行脚本
     cd ~/spheron
@@ -120,7 +121,7 @@ function deploy_node() {
     echo "正在使用提供的Token启动fizz，请稍等..."
 
     # 执行命令
-    ~/spheron/sphnctl.sh fizz start --token "$user_token"
+    sphnctl.sh fizz start --token "$user_token"
 
     read -p "按任意键返回主菜单..."
 }
