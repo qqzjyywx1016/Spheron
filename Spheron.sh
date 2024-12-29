@@ -123,6 +123,9 @@ function deploy_node() {
     # 执行命令
     ~/spheron/sphnctl.sh fizz start --token "$user_token"
 
+    # 再次执行命令
+    sphnctl fizz start --token "$user_token"
+
     read -p "按任意键返回主菜单..."
 }
 
