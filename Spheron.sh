@@ -104,7 +104,7 @@ function deploy_node() {
     echo "下载完成：~/spheron/sphnctl.sh"
 
     # 赋予sphnctl.sh执行权限
-    chmod +x ~/spheron/sphnctl.sh
+    chmod +x /root/spheron/sphnctl.sh
 
     # 进入spheron目录并运行脚本
     cd ~/spheron
