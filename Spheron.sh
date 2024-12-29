@@ -105,6 +105,8 @@ function deploy_node() {
 
     # 赋予sphnctl.sh执行权限
     chmod +x /root/spheron/sphnctl.sh
+    echo 'export PATH="$HOME/spheron:$PATH"' >> ~/.bashrc
+    source ~/.bashrc
     sudo chmod +x /usr/local/bin/sphnctl
 
     # 进入spheron目录并运行脚本
