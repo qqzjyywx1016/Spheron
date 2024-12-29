@@ -121,7 +121,7 @@ function deploy_node() {
     echo "正在使用提供的Token启动fizz，请稍等..."
 
     # 执行命令
-    sphnctl.sh fizz start --token "$user_token"
+    ~/spheron/sphnctl.sh fizz start --token "$user_token"
 
     read -p "按任意键返回主菜单..."
 }
