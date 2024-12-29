@@ -22,7 +22,7 @@ function main_menu() {
         echo "1. 部署节点"
         echo "2. 查看日志"
         echo "3. 停止节点"
-        echo "4. 停止节点"
+        echo "4. 查看版本"
         echo "5. 退出"
 
         read -p "请输入选项 [1-5]: " choice
