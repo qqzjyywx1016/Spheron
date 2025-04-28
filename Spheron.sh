@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 配置 Docker 和相关工具的 HTTP/HTTPS 代理（Clash 端口 7897）
+# 配置 Docker 和相关工具的 HTTP/HTTPS 代理（Clash 本地端口 7897）
 export HTTP_PROXY="http://127.0.0.1:7897/"
 export HTTPS_PROXY="http://127.0.0.1:7897/"
 export NO_PROXY="127.0.0.1,localhost,192.168.0.0/16"
@@ -96,39 +96,66 @@ function deploy_node() {
     # 创建 spheron 目录（如果不存在）
     mkdir -p ~/spheron
 
-    # 下载并执行 sphnctl.sh 脚本到 spheron 目录
-    echo "正在下载并执行 sphnctl.sh 脚本到 ~/spheron 目录..."
+    # 下载 sphnctl.sh 脚本到 spheron 目录
+    echo "正在下载 sphnctl.sh 脚本到 ~/spheron 目录..."
     curl -sL1 https://sphnctl.sh -o ~/spheron/sphnctl.sh
     echo "下载完成：~/spheron/sphnctl.sh"
 
     # 赋予 sphnctl.sh 执行权限
     chmod +x ~/spheron/sphnctl.sh
 
-    # 进入 spheron 目录并运行脚本
+    # 进入 spheron 目录
     cd ~/spheron
-    echo "正在运行脚本：sphnctl.sh fizz start"
 
     # 提示用户输入 Token
     read -p "请输入您的 Token（例如：0x3a5d08256479bf4d57af8...）: " user_token
 
-    # 使用提供的 Token 启动 fizz
+    # 使用 Token 注册节点（但不自动启动容器）
     ~/spheron/sphnctl.sh fizz start --token "$user_token"
-    sphnctl fizz start --token "$user_token"
+
+    # 等待 docker-compose.yml 生成
+    if [ ! -f ~/.spheron/fizz/docker-compose.yml ]; then
+        echo "错误：未能找到 docker-compose.yml 文件，节点注册失败。"
+        exit 1
+    fi
+
+    # 进入 docker-compose 文件目录
+    cd ~/.spheron/fizz
+
+    echo "使用宿主机 Docker Compose 拉取镜像并启动容器..."
+
+    # 再次确保代理环境正确
+    export HTTP_PROXY="http://127.0.0.1:7897/"
+    export HTTPS_PROXY="http://127.0.0.1:7897/"
+    export NO_PROXY="127.0.0.1,localhost,192.168.0.0/16"
+
+    # 拉取镜像
+    docker compose pull
+
+    # 启动容器
+    docker compose up -d
+
+    echo "Fizz节点已成功启动！"
 
     read -p "按任意键返回主菜单..."
 }
 
 # 查看日志函数
 function view_logs() {
-    echo "正在查看日志..."
-    sphnctl fizz logs
+    echo "正在查看节点日志..."
+    if [ -f ~/.spheron/fizz/docker-compose.yml ]; then
+        cd ~/.spheron/fizz
+        docker compose logs -f
+    else
+        echo "未找到节点配置文件，请确认节点是否已部署。"
+    fi
     read -p "按任意键返回主菜单..."
 }
 
 # 查看版本
 function version() {
-    echo "正在查看目前版本..."
-    sphnctl fizz version
+    echo "正在查看当前 sphnctl 版本..."
+    sphnctl version
     read -p "按任意键返回主菜单..."
 }
 
@@ -136,11 +163,11 @@ function version() {
 function stop_node() {
     echo "正在停止节点..."
     if [ -f ~/.spheron/fizz/docker-compose.yml ]; then
-        docker compose -f ~/.spheron/fizz/docker-compose.yml down
-        sphnctl fizz stop
-        echo "节点已成功停止"
+        cd ~/.spheron/fizz
+        docker compose down
+        echo "节点已成功停止。"
     else
-        echo "未找到节点配置文件，请确认节点是否已部署"
+        echo "未找到节点配置文件，请确认节点是否已部署。"
     fi
     read -p "按任意键返回主菜单..."
 }
