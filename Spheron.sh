@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 
 # 配置 Docker 和相关工具的 HTTP/HTTPS 代理（Clash 端口 7897）
@@ -148,4 +147,3 @@ function stop_node() {
 
 # 启动主菜单
 main_menu
-```
