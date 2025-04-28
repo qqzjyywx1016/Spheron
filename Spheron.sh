@@ -1,3 +1,4 @@
+```bash
 #!/bin/bash
 
 # 配置 Docker 和相关工具的 HTTP/HTTPS 代理（Clash 端口 7897）
@@ -33,18 +34,10 @@ function main_menu() {
         read -p "请输入选项 [1-5]: " choice
 
         case $choice in
-            1)
-                deploy_node
-                ;;
-            2)
-                view_logs
-                ;;
-            3)
-                stop_node
-                ;;
-            4)
-                version
-                ;;
+            1) deploy_node ;;
+            2) view_logs ;;
+            3) stop_node ;;
+            4) version ;;
             5)
                 echo "感谢使用，再见！"
                 exit 0
@@ -82,15 +75,17 @@ function deploy_node() {
 
         # 添加Docker的APT源
         echo \
-          "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-          "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+          "deb [arch=\"$(dpkg --print-architecture)\" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+          \"$(
+            . /etc/os-release && echo \"$VERSION_CODENAME\"
+          )\" stable" | \
           sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
         # 更新APT源并安装Docker
         sudo apt update -y && sudo apt upgrade -y
         sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-        # 确保docker-compose可执行
+        # 确保 docker-compose 可执行
         sudo chmod +x /usr/local/bin/docker-compose
 
         # 检查Docker版本
@@ -99,35 +94,26 @@ function deploy_node() {
         echo "Docker已安装，版本为：$(docker --version)"
     fi
 
-    # 创建spheron目录（如果不存在）
+    # 创建 spheron 目录（如果不存在）
     mkdir -p ~/spheron
 
-    # 下载并执行sphnctl.sh脚本到spheron目录
-    echo "正在下载并执行sphnctl.sh脚本到 ~/spheron 目录..."
+    # 下载并执行 sphnctl.sh 脚本到 spheron 目录
+    echo "正在下载并执行 sphnctl.sh 脚本到 ~/spheron 目录..."
     curl -sL1 https://sphnctl.sh -o ~/spheron/sphnctl.sh
-
     echo "下载完成：~/spheron/sphnctl.sh"
 
-    # 赋予sphnctl.sh执行权限
-    chmod +x /root/spheron/sphnctl.sh
-    
-    # 删除原有的文件
-    sudo rm -rf /usr/local/bin/sphnctl
+    # 赋予 sphnctl.sh 执行权限
+    chmod +x ~/spheron/sphnctl.sh
 
-    # 进入spheron目录并运行脚本
+    # 进入 spheron 目录并运行脚本
     cd ~/spheron
-    echo "正在运行脚本：fizzup.sh"
+    echo "正在运行脚本：sphnctl.sh fizz start"
 
-    # 提示用户输入Token
-    read -p "请输入您的Token（例如：0x3a5d08256479bf4d57af8...）: " user_token
-    
-    # 使用提供的Token启动fizz
-    echo "正在使用提供的Token启动fizz，请稍等..."
+    # 提示用户输入 Token
+    read -p "请输入您的 Token（例如：0x3a5d08256479bf4d57af8...）: " user_token
 
-    # 执行命令
+    # 使用提供的 Token 启动 fizz
     ~/spheron/sphnctl.sh fizz start --token "$user_token"
-
-    # 再次执行命令
     sphnctl fizz start --token "$user_token"
 
     read -p "按任意键返回主菜单..."
@@ -147,7 +133,7 @@ function version() {
     read -p "按任意键返回主菜单..."
 }
 
-# 添加停止节点函数
+# 停止节点函数
 function stop_node() {
     echo "正在停止节点..."
     if [ -f ~/.spheron/fizz/docker-compose.yml ]; then
@@ -162,3 +148,4 @@ function stop_node() {
 
 # 启动主菜单
 main_menu
+```
