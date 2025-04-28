@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# 配置 Docker 和相关工具的 HTTP/HTTPS 代理（Clash 端口 7897）
+export HTTP_PROXY="http://127.0.0.1:7897/"
+export HTTPS_PROXY="http://127.0.0.1:7897/"
+export NO_PROXY="127.0.0.1,localhost,192.168.0.0/16"
+
 # 脚本保存路径
 SCRIPT_PATH="$HOME/Spheron.sh"
 
